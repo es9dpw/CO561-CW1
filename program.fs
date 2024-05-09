@@ -67,11 +67,18 @@ else if task = 2 then
 
 else if task = 3 then
     
+    //Creates a list with all the accounts
     let accounts = [account1;account2;account3;account4;account5;account6]
     Console.WriteLine(accounts)
+
+
+    //filters the list on whether the belance is 50 or higher and the creates a sequence of accounts with a balance lower than 50 and another of accounts with a balance higher than 50
+    let lowBalance = [|List.filter (fun x -> x.balance >= 0 & x.balance < 50) accounts|] |> Seq.ofArray
+    let highBalance = [|List.filter (fun x -> x.balance >= 50) accounts|] |> Seq.ofArray
+    printfn "%A" lowBalance
+    printfn "%A" highBalance
 
 else if task = 4 then
     
     let mutable tickets = [for n in 1..10 -> {Ticket.seat = n; Ticket.customer = ""}]
     Console.WriteLine(tickets)
-
