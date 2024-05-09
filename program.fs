@@ -1,14 +1,15 @@
 ﻿open System
+open System.Threading
 
 let mutable amount : float = 0
+
+//create type "Ticket"
+type Ticket = {seat:int; customer:string}
 
 //create type "Account" with methods for withdrawing and depositing money
 type Account = { accountNumber : string; mutable balance : float} member this.Withdraw = this.balance - amount
                                                                   member this.Deposit = this.balance + amount
                                                                   member this.Print = Console.WriteLine(this.accountNumber + ": " + string(this.balance))
-
-//create type "Ticket"
-type Ticket = {seat:int; customer:string}
 
 //adds records using type "Account"
 let account1 = { accountNumber = "0001"; balance = 0 }
@@ -71,14 +72,44 @@ else if task = 3 then
     let accounts = [account1;account2;account3;account4;account5;account6]
     Console.WriteLine(accounts)
 
-
     //filters the list on whether the belance is 50 or higher and the creates a sequence of accounts with a balance lower than 50 and another of accounts with a balance higher than 50
-    let lowBalance = [|List.filter (fun x -> x.balance >= 0 & x.balance < 50) accounts|] |> Seq.ofArray
+    let lowBalance = [|List.filter (fun x -> x.balance >= 0 && x.balance < 50) accounts|] |> Seq.ofArray
     let highBalance = [|List.filter (fun x -> x.balance >= 50) accounts|] |> Seq.ofArray
     printfn "%A" lowBalance
     printfn "%A" highBalance
 
 else if task = 4 then
     
+    //Creates a list with seat numbers and customers
     let mutable tickets = [for n in 1..10 -> {Ticket.seat = n; Ticket.customer = ""}]
-    Console.WriteLine(tickets)
+
+    //Function that displays the tickets list
+    let displayTickets x = Console.WriteLine(string(x))
+    List.iter displayTickets tickets
+
+    (*let mutable available = true
+    let lockobj = new Object()
+    
+    let taskFunction (name : string) = 
+        for i = 1 to 5 do
+            let taskFunction (name : string) = 
+                for i = 1 to 5 do
+                    printfn "%s: %d" name i
+                    lock lockobj (fun () ->
+                        if available then
+                            available <- false
+                            printfn "%s Booked " name
+                        else
+                            printfn " Is not available")
+            Thread.Sleep(1000)
+    
+    let thread1 = new Thread(fun () -> taskFunction "Thread 1")
+    thread1.Start()
+    
+    let thread2 = new Thread(fun () -> taskFunction "Thread 2")
+    thread2.Start()
+    
+    thread1.Join()
+    thread2.Join()*)
+
+
