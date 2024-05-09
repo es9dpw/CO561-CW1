@@ -5,7 +5,7 @@ let mutable amount : float = 0
 //create type "Account" with methods for withdrawing and depositing money
 type Account = { accountNumber : string; mutable balance : float} member this.Withdraw = this.balance - amount
                                                                   member this.Deposit = this.balance + amount
-                                                                  member this.Print = Console.WriteLine(this.accountNumber + ": " + this.balance)
+                                                                  member this.Print = Console.WriteLine(this.accountNumber + ": " + string(this.balance))
 
 //create type "Ticket"
 type Ticket = {seat:int; customer:string}
