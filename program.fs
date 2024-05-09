@@ -87,29 +87,26 @@ else if task = 4 then
     let displayTickets x = Console.WriteLine(string(x))
     List.iter displayTickets tickets
 
-    (*let mutable available = true
+    //Two threads book a seat
+    let mutable seatsFree : int = List.length tickets
     let lockobj = new Object()
-    
-    let taskFunction (name : string) = 
-        for i = 1 to 5 do
-            let taskFunction (name : string) = 
-                for i = 1 to 5 do
-                    printfn "%s: %d" name i
-                    lock lockobj (fun () ->
-                        if available then
-                            available <- false
-                            printfn "%s Booked " name
-                        else
-                            printfn " Is not available")
-            Thread.Sleep(1000)
-    
-    let thread1 = new Thread(fun () -> taskFunction "Thread 1")
+
+    let bookSeat (name : string) = 
+        lock lockobj (fun () ->
+            if seatsFree > 0 then
+                seatsFree <- seatsFree - 1
+                printfn "%s: Seat Booked " name
+                tickets <- List.map (fun x -> {Ticket.seat = x.seat; Ticket.customer = name}) tickets
+                List.iter displayTickets tickets
+            else
+                printfn "%s: No Available Seats" name)
+        Thread.Sleep(1000)
+
+    let thread1 = new Thread(fun () -> bookSeat "Ethan")
     thread1.Start()
-    
-    let thread2 = new Thread(fun () -> taskFunction "Thread 2")
+
+    let thread2 = new Thread(fun () -> bookSeat "Bob")
     thread2.Start()
-    
+
     thread1.Join()
-    thread2.Join()*)
-
-
+    thread2.Join()
